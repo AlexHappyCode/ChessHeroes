@@ -1,17 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-public class CreateBoard : MonoBehaviour {
-    // Start is called before the first frame update
-    void Start() {
-        GameObject tile = this.transform.GetChild(0).gameObject;
-        GameObject duplicate = Instantiate(tile);
-        duplicate.transform.position += new Vector3(1, 0, 0);
-    }
-
-    // Update is called once per frame
-    void Update() {
-        
+[CustomEditor(typeof(Board))]
+public class CreateBoard : Editor {
+    public override void OnInspectorGUI() {
+        base.OnInspectorGUI();
+        Board board = (Board)target;
+        if (GUILayout.Button("Create Board")) {
+            Debug.Log("we got custom button!");
+            GameObject tile = board.transform.GetChild(0).gameObject;
+            GameObject duplicate = Instantiate(tile);
+            duplicate.transform.position += new Vector3(1, 0, 0);
+        }
     }
 }
