@@ -7,10 +7,14 @@ public class CreateBoard : Editor {
         base.OnInspectorGUI();
         Board board = (Board)target;
         if (GUILayout.Button("Create Board")) {
-            Debug.Log("we got custom button!");
-            GameObject tile = board.transform.GetChild(0).gameObject;
-            GameObject duplicate = Instantiate(tile);
-            duplicate.transform.position += new Vector3(1, 0, 0);
+            //Debug.Log("test");
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    var tile = board.transform.GetChild(0).gameObject;
+                    var duplicate = Instantiate(tile, board.transform);
+                    duplicate.transform.position += new Vector3(i + 1, 0, j);
+                }
+            }
         }
     }
 }
