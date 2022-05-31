@@ -3,17 +3,34 @@ using UnityEditor;
 
 [CustomEditor(typeof(Board))]
 public class CreateBoard : Editor {
+    
+
     public override void OnInspectorGUI() {
         base.OnInspectorGUI();
-        Board board = (Board)target;
+        var board = (Board)target;
+        
         if (GUILayout.Button("Create Board")) {
             //Debug.Log("test");
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
-                    var tile = board.transform.GetChild(0).gameObject;
-                    var duplicate = Instantiate(tile, board.transform);
-                    duplicate.transform.position += new Vector3(i + 1, 0, j);
+                    var newTile = Instantiate(board.tile, board.transform);
+                    newTile.transform.position += new Vector3(j, 0, i);
+                    newTile.name = "tile " + newTile.transform.position.z + " " + newTile.transform.position.x;
                 }
+            }
+        } else if (GUILayout.Button("Empty Board")) {
+            //Debug.Log("childCount: " + board.transform.childCount);
+            
+            GameObject[] allChildren = new GameObject[board.transform.childCount];
+
+            var i = 0;
+            foreach (Transform child in board.transform) {
+                allChildren[i] = child.gameObject;
+                i++;
+            }
+            
+            foreach (GameObject child in allChildren) {
+                DestroyImmediate(child);
             }
         }
     }

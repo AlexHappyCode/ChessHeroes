@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Board : MonoBehaviour {
     // Start is called before the first frame update
+    
+    public GameObject tile;
+    
     void Start() {
         
     }
