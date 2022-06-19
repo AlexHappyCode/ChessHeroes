@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal.Internal;
 
 public class Board : MonoBehaviour {
-    // Start is called before the first frame update
+    
+    /* Not using this stuff
     [Header("Art Stuff")] [SerializeField] private Material tileMaterial;
     
     public GameObject tile;
@@ -49,4 +50,5 @@ public class Board : MonoBehaviour {
 
         return tileObject;
     }
+    */
 }
