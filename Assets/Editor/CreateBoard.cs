@@ -10,14 +10,18 @@ public class CreateBoard : Editor {
         var board = (Board)target;
         
         if (GUILayout.Button("Create Board")) {
+            board.CreateBoard();
             //Debug.Log("test");
-            for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
+            /*
+            for (int x = 0; x < 8; x++) {
+                for (int z = 0; z < 8; z++) {
                     var newTile = Instantiate(board.tile, board.transform);
-                    newTile.transform.position += new Vector3(j, 0, i);
+                    newTile.transform.position += new Vector3(z, 0, x);
                     newTile.name = "tile " + newTile.transform.position.z + " " + newTile.transform.position.x;
+                    tiles[x, z] = newTile;
                 }
             }
+            */
         } else if (GUILayout.Button("Empty Board")) {
             //Debug.Log("childCount: " + board.transform.childCount);
             
