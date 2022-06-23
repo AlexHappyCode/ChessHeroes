@@ -5,6 +5,12 @@ using UnityEngine.Rendering.Universal.Internal;
 using UnityEngine.Serialization;
 
 public class Board : MonoBehaviour {
+
+    [Header("Prefabs & Materials")] 
+    [SerializeField] private GameObject[] prefabs;
+    [SerializeField] private Material[] teamMaterials;
+    
+    [Header("General")]
     [SerializeField] public GameObject tile1;
     [SerializeField] public GameObject tile2;
     [SerializeField] public Material hoverMaterial;
@@ -13,7 +19,6 @@ public class Board : MonoBehaviour {
     [SerializeField] public bool logging;
 
     readonly List<List<GameObject>> tiles = new();  //Create 2d List
-
     private Camera currentCamera;
     private Vector2Int currentHover = -Vector2Int.one;
     private const int TILE_COUNT_X = 8;

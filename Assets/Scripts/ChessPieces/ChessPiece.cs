@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace DefaultNamespace {
     public enum ChessPieceType {
@@ -11,7 +10,7 @@ namespace DefaultNamespace {
         Queen = 5,
         King = 6
     }
-    public class ChessPiece {
+    public class ChessPiece : MonoBehaviour {
         public int team;
         public int currentX;
         public int currentY;
