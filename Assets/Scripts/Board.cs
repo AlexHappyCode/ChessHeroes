@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.Rendering.Universal.Internal;
 using UnityEngine.Serialization;
@@ -19,6 +20,7 @@ public class Board : MonoBehaviour {
     [SerializeField] public bool logging;
 
     readonly List<List<GameObject>> tiles = new();  //Create 2d List
+    private ChessPiece[,] chessPieces;
     private Camera currentCamera;
     private Vector2Int currentHover = -Vector2Int.one;
     private const int TILE_COUNT_X = 8;
@@ -27,6 +29,8 @@ public class Board : MonoBehaviour {
 
     public void Start() {
         CreateBoard();
+        SpawnAllPieces();
+        StartingPosition();
     }
 
     public void Update() {
@@ -51,6 +55,64 @@ public class Board : MonoBehaviour {
                  tiles[z].Add(newTile);
              }
          }
+    }
+
+    private void SpawnAllPieces() {
+        chessPieces = new ChessPiece[TILE_COUNT_Z, TILE_COUNT_X];
+
+        int whiteTeam = 0;
+        int blackTeam = 1;
+
+        // white team
+        chessPieces[0, 0] = SpawnPiece(ChessPieceType.Rook, whiteTeam);
+        chessPieces[0, 1] = SpawnPiece(ChessPieceType.Bishop, whiteTeam);
+        chessPieces[0, 2] = SpawnPiece(ChessPieceType.Knight, whiteTeam);
+        chessPieces[0, 3] = SpawnPiece(ChessPieceType.Queen, whiteTeam);
+        chessPieces[0, 4] = SpawnPiece(ChessPieceType.King, whiteTeam);
+        chessPieces[0, 5] = SpawnPiece(ChessPieceType.Knight, whiteTeam);
+        chessPieces[0, 6] = SpawnPiece(ChessPieceType.Bishop, whiteTeam);
+        chessPieces[0, 7] = SpawnPiece(ChessPieceType.Rook, whiteTeam);
+        
+        for (int i = 0; i < TILE_COUNT_X; i++) {
+            chessPieces[1, i] = SpawnPiece(ChessPieceType.Pawn, whiteTeam);
+        }
+        
+        // Black Team
+        chessPieces[7, 0] = SpawnPiece(ChessPieceType.Rook, blackTeam);
+        chessPieces[7, 1] = SpawnPiece(ChessPieceType.Bishop, blackTeam);
+        chessPieces[7, 2] = SpawnPiece(ChessPieceType.Knight, blackTeam);
+        chessPieces[7, 3] = SpawnPiece(ChessPieceType.Queen, blackTeam);
+        chessPieces[7, 4] = SpawnPiece(ChessPieceType.King, blackTeam);
+        chessPieces[7, 5] = SpawnPiece(ChessPieceType.Knight, blackTeam);
+        chessPieces[7, 6] = SpawnPiece(ChessPieceType.Bishop, blackTeam);
+        chessPieces[7, 7] = SpawnPiece(ChessPieceType.Rook, blackTeam);
+        
+        for (int i = 0; i < TILE_COUNT_X; i++) {
+            chessPieces[6, i] = SpawnPiece(ChessPieceType.Pawn, blackTeam);
+        }
+    }
+
+    private void StartingPosition() {
+        for (int z = 0; z < TILE_COUNT_Z; z++) {
+            for (int x = 0; x < TILE_COUNT_X; x++) {
+                if (chessPieces[z, x] != null) {
+                    PositionPiece(z, x, true);
+                }
+            }
+        }
+    }
+    private void PositionPiece(int z, int x, bool force = false) {
+        chessPieces[z, x].currentY = z;
+        chessPieces[z, x].currentX = x;
+        chessPieces[z, x].transform.position = new Vector3(x, 0.5f, z);
+    }
+
+    private ChessPiece SpawnPiece(ChessPieceType type, int team) {
+        ChessPiece chessPiece = Instantiate(prefabs[(int)type - 1], transform).GetComponent<ChessPiece>();
+        chessPiece.type = type;
+        chessPiece.team = team;
+        chessPiece.GetComponent<MeshRenderer>().material = teamMaterials[team];
+        return chessPiece;
     }
 
     private void TileHover() {
